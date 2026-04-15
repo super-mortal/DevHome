@@ -1,0 +1,24 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4127:12445"
+      - "4128:12445"
+    depends_on:
+      - api
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    environment:
+      - API_PORT=3100
+      - DB_PATH=/app/data/site.db
+      - ADMIN_USERNAME=admin
+      - ADMIN_PASSWORD=admin123456
+    volumes:
+      - ./data:/app/data
+    ports:
+      - "3100:3100"
